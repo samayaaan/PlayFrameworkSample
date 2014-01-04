@@ -69,6 +69,26 @@ public class Application extends Controller {
 			return ok(edit.render("ERROR:再度入力してください。", f));
 		}
 	}
+	
+	public static Result delete(){
+		Form<Message> f = new Form(Message.class).bindFromRequest();
+		if(!f.hasErrors()){
+			Message obj = f.get();
+			Long id = obj.id;
+			obj = Message.find.byId(id);
+			if(obj != null){
+				obj.delete();
+//				f = new Form(Message.class).fill(obj);
+//				return ok(edit.render("ID=" + id + "の投稿を編集。", f));
+				return redirect("/");
+			} else {
+				return ok(item.render("ERROR:IDの投稿が見つかりません。", f));
+			}
+		} else {
+			return ok(item.render("ERROR:入力に問題があります。", f));
+		}
+		
+	}
 //	public static Result send(){
 //		Form<SampleForm> f = form(SampleForm.class).bindFromRequest();
 //		if(!f.hasErrors()){
